@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Muhammed Rabah — Portfolio
 
-## Getting Started
+Personal portfolio for **Muhammed Rabah M**, a Python full-stack developer focused on
+production-grade backend systems. Built with Next.js (App Router) and Tailwind CSS,
+with a working contact form powered by [Resend](https://resend.com).
 
-First, run the development server:
+## Stack
+
+- **Framework:** Next.js 16 (App Router, Turbopack, Cache Components)
+- **UI:** React 19, Tailwind CSS v4, lucide-react
+- **Language:** TypeScript
+- **Email:** Resend (via a server route at `POST /api/contact`)
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy `.env.example` to `.env.local` (git-ignored) and set:
 
-## Learn More
+| Variable               | Required | Description                                                                 |
+| ---------------------- | -------- | --------------------------------------------------------------------------- |
+| `RESEND_API_KEY`       | Yes      | Resend API key used to send contact-form emails.                            |
+| `CONTACT_TO_EMAIL`     | Yes      | Inbox that submissions are delivered to.                                    |
+| `CONTACT_FROM_EMAIL`   | No       | Verified "from" address. Blank falls back to `onboarding@resend.dev` (test mode). |
+| `NEXT_PUBLIC_SITE_URL` | No       | Public site URL for metadata, sitemap and robots (falls back to localhost). |
 
-To learn more about Next.js, take a look at the following resources:
+> Without `RESEND_API_KEY`, the contact form gracefully falls back to opening the
+> visitor's email client via `mailto:`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run dev     # start the dev server
+npm run build   # production build
+npm run start   # run the production build
+npm run lint    # eslint
+```
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+  app/            # routes, layout, metadata, sitemap, robots, api/contact
+  components/     # UI sections (hero, about, skills, projects, ...)
+  data/           # portfolio content (single source of truth)
+  lib/            # site config helpers
+public/           # static assets (resume.pdf)
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All copy and data live in `src/data/portfolio.ts`.
+
+## Deploy
+
+Deployed on [Vercel](https://vercel.com). Import the repository, add the environment
+variables above in the project settings, and deploy.
